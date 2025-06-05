@@ -1,0 +1,21 @@
+# These owners will be the default owners for everything in the repo
+* @Yks-SE
+
+# Cypress test files
+/cypress/e2e/features/ @Yks-SE
+/cypress/e2e/pageObjects/ @Yks-SE
+/cypress/support/step_definitions/ @Yks-SE
+
+# Configuration files
+cypress.config.js @Yks-SE
+cypress.env.json @Yks-SE
+package.json @Yks-SE
+
+# Documentation
+README.md @Yks-SE
+CONTRIBUTING.md @Yks-SE
+CHANGELOG.md @Yks-SE
+TestCases.xlsx @Yks-SE
+
+# CI/CD
+.github/workflows/ @Yks-SE 
