@@ -1,0 +1,42 @@
+Test Case ID,Description,Preconditions,Test Steps,Expected Results,Status,Comments
+TC001,Verify that a new user can successfully create an account with valid information,User is on the registration page,"1. Navigate to the registration page
+2. Fill in all required fields with valid data:
+   - First Name
+   - Last Name
+   - Email
+   - Password
+   - Confirm Password
+3. Click ""Create an Account"" button","- Account is created successfully
+- User is redirected to the account dashboard
+- Success message is displayed",Pass,Tested with valid email format and strong password
+TC002,Verify that system prevents registration with an already registered email,User is on the registration page,"1. Navigate to the registration page
+2. Fill in all required fields with an existing email
+3. Click ""Create an Account"" button","- Error message is displayed
+- Account is not created
+- User remains on registration page",Pass,System correctly identifies duplicate email addresses
+TC003,Verify that system validates email format during registration,User is on the registration page,"1. Navigate to the registration page
+2. Enter invalid email format
+3. Fill other required fields
+4. Click ""Create an Account"" button","- Error message about invalid email format is displayed
+- Account is not created",Pass,System validates email format before submission
+TC004,Verify that system validates password confirmation,User is on the registration page,"1. Navigate to the registration page
+2. Fill in all required fields
+3. Enter different passwords in password and confirm password fields
+4. Click ""Create an Account"" button","- Error message about password mismatch is displayed
+- Account is not created",Pass,System ensures password confirmation matches
+TC005,Verify that system validates all required fields,User is on the registration page,"1. Navigate to the registration page
+2. Leave one or more required fields empty
+3. Click ""Create an Account"" button","- Error messages for empty required fields are displayed
+- Account is not created",Pass,System properly validates all mandatory fields
+TC006,Verify that registered user can successfully log in,User has a valid account,"1. Navigate to the login page
+2. Enter valid email and password
+3. Click ""Sign In"" button","- User is successfully logged in
+- User is redirected to the account dashboard",Pass,Tested with valid credentials
+TC007,Verify that system prevents login with invalid credentials,User is on the login page,"1. Navigate to the login page
+2. Enter invalid email and/or password
+3. Click ""Sign In"" button","- Error message about invalid credentials is displayed
+- User remains on login page",Pass,System properly handles invalid login attempts
+TC008,Verify that system validates required fields during login,User is on the login page,"1. Navigate to the login page
+2. Leave email and/or password fields empty
+3. Click ""Sign In"" button","- Error messages for empty fields are displayed
+- User remains on login page",Pass,System properly validates login form fields 
