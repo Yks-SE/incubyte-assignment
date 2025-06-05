@@ -9,9 +9,19 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -22,20 +32,47 @@ jobs:
           browser: chrome
           headless: true
           record: false
-          parallel: false
+          parallel: true
           group: 'UI Tests'
           start: npm start
+          wait-on: 'http://localhost:3000'
+
+      - name: Generate Test Report
+        if: always()
+        run: |
+          npm install -g mochawesome-merge mochawesome-report-generator
+          npx mochawesome-merge cypress/results/*.json > cypress/results/report.json
+          npx mochawesome-report-generator cypress/results/report.json
+
+      - name: Upload Test Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-report
+          path: cypress/results/report.html
 
       - name: Upload screenshots
-        uses: actions/upload-artifact@v3
         if: failure()
+        uses: actions/upload-artifact@v3
         with:
           name: cypress-screenshots
           path: cypress/screenshots
 
       - name: Upload videos
-        uses: actions/upload-artifact@v3
         if: always()
+        uses: actions/upload-artifact@v3
         with:
           name: cypress-videos
-          path: cypress/videos 
+          path: cypress/videos
+
+      - name: Notify on Failure
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Test Failure Alert',
+              body: 'Tests failed in the latest run. Please check the workflow for details.'
+            }) 
